@@ -52,6 +52,7 @@ public class MsgBot extends TelegramLongPollingBot {
         String user_id = "";
         String user_username = "";
         String message_text = "";
+        long chat_id = 0;
 
         //如果是私聊消息
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -62,7 +63,7 @@ public class MsgBot extends TelegramLongPollingBot {
             name = user_first_name + " " + user_last_name;
             user_username = update.getMessage().getChat().getUserName();
             user_id = update.getMessage().getChat().getId()+"";
-            long chat_id = update.getMessage().getChatId();
+            chat_id = update.getMessage().getChatId();
 
             //在问题表中有的话使用问题表的回答，否则使用思知的回答
             if (Constant.oneToOne.keySet().contains(message_text)) {
@@ -70,15 +71,13 @@ public class MsgBot extends TelegramLongPollingBot {
                 message = new SendMessage() // Create a message object object
                         .setChatId(chat_id)
                         .setText(answer);
-            } else {
-                message = generalAnswer(message_text, chat_id);
             }
 
 
             //如果是频道消息
         } else if (update.hasChannelPost()) {
             message_text = update.getChannelPost().getText();
-            long chat_id = update.getChannelPost().getChatId();
+            chat_id = update.getChannelPost().getChatId();
 
             answer = message_text;
 
@@ -110,15 +109,18 @@ public class MsgBot extends TelegramLongPollingBot {
                 message = new SendMessage() // Create a message object object
                         .setChatId(chat_id)
                         .setText(answer);
-            } else {
-                message = generalAnswer(message_text, chat_id);
             }
 
 
         }
 
         try {
-            execute(message); // Sending our message object to user
+            if(message != null){
+                execute(message); // Sending our message object to user
+            }else{
+                message = generalAnswer(message_text, chat_id);
+                execute(message); // Sending our message object to user
+            }
             log(name, user_id, user_username, message_text, message.getText());
         } catch (TelegramApiException e) {
             e.printStackTrace();
