@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: TelegramBot
+
+
+chat:
+  onetoone: /bot/onetoone.csv
+  onetomany: /bot/onetomany.csv
+msgbot:
+  token:
+  name:
+proxy:
+  enable: false
+  host: 127.0.0.1
+  port: 7891
+  user:
+  password:
+
+ownthink:
+  appid:
+  userid:
