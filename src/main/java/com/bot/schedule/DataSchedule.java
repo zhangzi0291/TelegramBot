@@ -1,12 +1,17 @@
 package com.bot.schedule;
 
 
+import com.bot.bots.MsgBot;
 import com.bot.data.Constant;
+import com.bot.util.CsvParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,6 +22,7 @@ import java.util.Map;
 @Component
 public class DataSchedule {
 
+    private Logger logger = LoggerFactory.getLogger(DataSchedule.class);
     @Value("${chat.onetoone}")
     private String oneToOneFilePath;
     @Value("${chat.onetomany}")
@@ -24,18 +30,17 @@ public class DataSchedule {
 
     @Scheduled(fixedRate = 1000*60*5)
     private void loadOneToOneData() throws Exception{
-        System.out.println(oneToOneFilePath);
+        logger.debug("更新数据：{}",oneToOneFilePath);
         Path filePath = Paths.get(oneToOneFilePath);
-        List<String> list = Files.readAllLines(filePath);
+        CsvParser csvParser = new CsvParser(filePath, Charset.forName("GBK"));
+        List<List<String>> list = csvParser.getRowsWithNoHeader();
         Map<String,String> resultMap = new HashMap();
-
-        list.forEach(s -> {
-            String[] strs = s.split(",");
-            if(!StringUtils.isEmpty(strs[0]) && !StringUtils.isEmpty(strs[1])) {
-                if(strs[1].startsWith("\"") && strs[1].endsWith("\"")) {
-                    strs[1] = strs[1].substring(1,strs[1].length()-1);
+        list.forEach(row -> {
+            if(!StringUtils.isEmpty(row.get(0)) && !StringUtils.isEmpty(row.get(1))) {
+                if(row.get(1).startsWith("\"") && row.get(1).endsWith("\"")) {
+                    row.set(1,row.get(1).substring(1,row.get(1).length()-1));
                 }
-                resultMap.put(strs[0], strs[1]);
+                resultMap.put(row.get(0), row.get(1));
             }
         });
         Constant.oneToOne = resultMap;
@@ -43,18 +48,17 @@ public class DataSchedule {
     }
     @Scheduled(fixedRate = 1000*60*5)
     private void loadOneToManyData() throws Exception{
-        System.out.println(oneToManyFilePath);
+        logger.debug("更新数据：{}",oneToManyFilePath);
         Path filePath = Paths.get(oneToManyFilePath);
-        List<String> list = Files.readAllLines(filePath);
+        CsvParser csvParser = new CsvParser(filePath, Charset.forName("GBK"));
+        List<List<String>> list = csvParser.getRowsWithNoHeader();
         Map<String,String> resultMap = new HashMap();
-
-        list.forEach(s -> {
-            String[] strs = s.split(",");
-            if(!StringUtils.isEmpty(strs[0]) && !StringUtils.isEmpty(strs[1])) {
-                if(strs[1].startsWith("\"") && strs[1].endsWith("\"")) {
-                    strs[1] = strs[1].substring(1,strs[1].length()-1);
+        list.forEach(row -> {
+            if(!StringUtils.isEmpty(row.get(0)) && !StringUtils.isEmpty(row.get(1))) {
+                if(row.get(1).startsWith("\"") && row.get(1).endsWith("\"")) {
+                    row.set(1,row.get(1).substring(1,row.get(1).length()-1));
                 }
-                resultMap.put(strs[0], strs[1]);
+                resultMap.put(row.get(0), row.get(1));
 
             }
         });

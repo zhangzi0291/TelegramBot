@@ -2,6 +2,7 @@ package com.bot;
 
 import com.bot.bots.MsgBot;
 import com.bot.data.Constant;
+import com.bot.util.CsvParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,8 +14,15 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 import static org.glassfish.jersey.client.ClientProperties.PROXY_PASSWORD;
 
@@ -33,11 +41,8 @@ public class Application {
     private String PROXY_PASSWORD ;
 
     public static void main(String[] args) {
-
-
         //Add this line to initialize bots context
         ApiContextInitializer.init();
-
         SpringApplication.run(Application.class, args);
     }
 

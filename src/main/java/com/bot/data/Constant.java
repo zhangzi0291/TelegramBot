@@ -29,7 +29,7 @@ public class Constant {
         OWNTHINK_USERID = ownthinkUserid;
     }
 
-    @Value("${ownthink.userid}")
+    @Value("${ownthink.enable}")
     public void setOwnthinkEnable(Boolean ownthinkEnable) {
         OWNTHINK_ENABLE = ownthinkEnable;
     }
