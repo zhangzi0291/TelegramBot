@@ -20,5 +20,6 @@ proxy:
   password:
 
 ownthink:
+  enable: false
   appid:
   userid:

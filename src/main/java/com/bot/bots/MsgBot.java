@@ -118,12 +118,16 @@ public class MsgBot extends TelegramLongPollingBot {
             if(message != null){
                 execute(message); // Sending our message object to user
             }else{
-                message = generalAnswer(message_text, chat_id);
-                execute(message); // Sending our message object to user
+                if(Constant.OWNTHINK_ENABLE) {
+                    message = generalAnswer(message_text, chat_id);
+                    execute(message); // Sending our message object to user
+                }
             }
-            log(name, user_id, user_username, message_text, message.getText());
+            if(message!=null) {
+                log(name, user_id, user_username, message_text, message.getText());
+            }
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            logger.error("error: ",e);
         }
     }
 

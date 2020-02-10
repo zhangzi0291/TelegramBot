@@ -29,12 +29,18 @@ public class Constant {
         OWNTHINK_USERID = ownthinkUserid;
     }
 
+    @Value("${ownthink.userid}")
+    public void setOwnthinkEnable(Boolean ownthinkEnable) {
+        OWNTHINK_ENABLE = ownthinkEnable;
+    }
+
     public static Map<String,String> oneToOne = new HashMap<>();
 
     public static Map<String,String> oneToMany = new HashMap<>();
 
     public static String MSG_BOT_TOKEN ;
     public static String MSG_BOT_NAME ;
+    public static Boolean OWNTHINK_ENABLE ;
     public static String OWNTHINK_APPID ;
     public static String OWNTHINK_USERID ;
 
