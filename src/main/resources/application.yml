@@ -7,15 +7,16 @@ spring:
 
 
 chat:
-  onetoone: /bot/onetoone.csv
-  onetomany: /bot/onetomany.csv
+  message: D:/WorkSpaceIdea/TelegramBot/templete/onetoone.csv
+  channalMessage: D:/WorkSpaceIdea/TelegramBot/templete/onetomany.csv
+  welcomeText: D:/WorkSpaceIdea/TelegramBot/templete/welcome.txt
 msgbot:
   token:
   name:
 proxy:
-  enable: false
+  enable: true
   host: 127.0.0.1
-  port: 7891
+  port: 8889
   user:
   password:
 

@@ -13,6 +13,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -44,6 +45,14 @@ public class Application {
         //Add this line to initialize bots context
         ApiContextInitializer.init();
         SpringApplication.run(Application.class, args);
+
+//        TelegramBotsApi botsApi = new TelegramBotsApi();
+//        try {
+//            botsApi.registerBot(new MsgBot());
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     @Bean

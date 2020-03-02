@@ -34,9 +34,11 @@ public class Constant {
         OWNTHINK_ENABLE = ownthinkEnable;
     }
 
-    public static Map<String,String> oneToOne = new HashMap<>();
+    public static Map<String,String> messageMap = new HashMap<>();
 
-    public static Map<String,String> oneToMany = new HashMap<>();
+    public static Map<String,String> channalMessageMap = new HashMap<>();
+
+    public static String welcomeText;
 
     public static String MSG_BOT_TOKEN ;
     public static String MSG_BOT_NAME ;

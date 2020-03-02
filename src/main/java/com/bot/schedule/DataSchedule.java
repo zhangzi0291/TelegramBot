@@ -23,15 +23,17 @@ import java.util.Map;
 public class DataSchedule {
 
     private Logger logger = LoggerFactory.getLogger(DataSchedule.class);
-    @Value("${chat.onetoone}")
-    private String oneToOneFilePath;
-    @Value("${chat.onetomany}")
-    private String oneToManyFilePath;
+    @Value("${chat.message}")
+    private String messagePath;
+    @Value("${chat.channalMessage}")
+    private String channalMessagePath;
+    @Value("${chat.welcomeText}")
+    private String welcomeTextPath;
 
     @Scheduled(fixedRate = 1000*60*5)
     private void loadOneToOneData() throws Exception{
-        logger.debug("更新数据：{}",oneToOneFilePath);
-        Path filePath = Paths.get(oneToOneFilePath);
+        logger.debug("更新数据：{}",messagePath);
+        Path filePath = Paths.get(messagePath);
         CsvParser csvParser = new CsvParser(filePath, Charset.forName("GBK"));
         List<List<String>> list = csvParser.getRowsWithNoHeader();
         Map<String,String> resultMap = new HashMap();
@@ -43,13 +45,13 @@ public class DataSchedule {
                 resultMap.put(row.get(0), row.get(1));
             }
         });
-        Constant.oneToOne = resultMap;
+        Constant.messageMap = resultMap;
 
     }
     @Scheduled(fixedRate = 1000*60*5)
     private void loadOneToManyData() throws Exception{
-        logger.debug("更新数据：{}",oneToManyFilePath);
-        Path filePath = Paths.get(oneToManyFilePath);
+        logger.debug("更新数据：{}",channalMessagePath);
+        Path filePath = Paths.get(channalMessagePath);
         CsvParser csvParser = new CsvParser(filePath, Charset.forName("GBK"));
         List<List<String>> list = csvParser.getRowsWithNoHeader();
         Map<String,String> resultMap = new HashMap();
@@ -62,6 +64,14 @@ public class DataSchedule {
 
             }
         });
-        Constant.oneToMany = resultMap;
+        Constant.channalMessageMap = resultMap;
+    }
+
+    @Scheduled(fixedRate = 1000*60*5)
+    private void welcomeText() throws Exception{
+        logger.debug("更新数据：{}",welcomeTextPath);
+        Path filePath = Paths.get(welcomeTextPath);
+        String welcomeText = new String (Files.readAllBytes(filePath));
+        Constant.welcomeText = welcomeText;
     }
 }
