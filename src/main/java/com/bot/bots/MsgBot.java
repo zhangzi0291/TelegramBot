@@ -53,66 +53,77 @@ public class MsgBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        logger.debug("json:{}", JSON.toJSONString(update));
-
-        Message messageObj = update.getMessage();
-
-        //10分钟之前的消息不回
-        if(LocalDateTime.now().minusMinutes(10).compareTo(new Date(Long.valueOf(messageObj.getDate()+"000")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) >=0){
-            return;
-        }
-
-        if(messageObj.getChat().getTitle().equals("DotWallet Official")){
-            return;
-        }
-
-        //致欢迎
         try {
-            List<SendMessage> sendMessageList = msgBotService.sendWelcome(messageObj);
-            if(!CollectionUtils.isEmpty(sendMessageList)){
-                    for (SendMessage sendMessage : sendMessageList) {
-                            execute(sendMessage);
+            logger.debug("json:{}", JSON.toJSONString(update));
+
+            Message messageObj = update.getMessage();
+
+            //10分钟之前的消息不回
+            if(new Date(Long.valueOf(messageObj.getDate()+"000")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().compareTo(LocalDateTime.now().minusMinutes(10)) == -1){
+                return;
+            }
+
+            if(messageObj.getChat().getTitle() != null && messageObj.getChat().getTitle().equals("DotWallet Official")){
+                return;
+            }
+
+            //致欢迎
+            try {
+                List<SendMessage> sendMessageList = msgBotService.sendWelcome(messageObj);
+                if(!CollectionUtils.isEmpty(sendMessageList)){
+                        for (SendMessage sendMessage : sendMessageList) {
+                                execute(sendMessage);
+                        }
                     }
                 }
+            catch (Exception e) {
+                logger.error("welcome error:" ,e);
             }
-        catch (Exception e) {
-            logger.error("welcome error:" ,e);
-        }
 
-        //如果是消息
-        if (update.hasMessage() && update.getMessage().hasText()) {
+            //如果是消息
+            if (update.hasMessage() && update.getMessage().hasText()) {
 
-            //是私聊
-            if( messageObj.getChat().isUserChat() ) {
-                try {
-                    SendMessage sendMessage = msgBotService.respondPrivateMessage(messageObj);
-                    execute(sendMessage);
-                } catch (Exception e) {
-                    logger.error("respondPrivateMessage:",e);
+                //是私聊
+                if( messageObj.getChat().isUserChat() ) {
+                    try {
+                        SendMessage sendMessage = msgBotService.respondPrivateMessage(messageObj);
+                        if( sendMessage != null ){
+                            execute(sendMessage);
+                        }
+                    } catch (Exception e) {
+                        logger.error("respondPrivateMessage:",e);
+                    }
+
+                }
+                //是超群组或群组聊
+                else if( messageObj.getChat().isSuperGroupChat() || messageObj.getChat().isGroupChat() ) {
+
+                    try {
+                        SendMessage sendMessage = msgBotService.respondGroupMessage(messageObj);
+                        if( sendMessage != null ){
+                            execute(sendMessage);
+                        }
+                    } catch (Exception e) {
+                        logger.error("respondPrivateMessage:",e);
+                    }
+
                 }
 
-            }
-            //是超群组或群组聊
-            else if( messageObj.getChat().isSuperGroupChat() || messageObj.getChat().isGroupChat() ) {
-                try {
-                    SendMessage sendMessage = msgBotService.respondGroupMessage(messageObj);
-                    execute(sendMessage);
-                } catch (Exception e) {
-                    logger.error("respondPrivateMessage:",e);
-                }
 
             }
-
-
-        }
-        //如果是频道消息
-        else if (update.hasChannelPost()) {
-//            try {
-//                SendMessage sendMessage = msgBotService.respondChannelMessage(messageObj);
-//                execute(sendMessage);
-//            } catch (Exception e) {
-//                logger.error("respondPrivateMessage:",e);
-//            }
+            //如果是频道消息
+            else if (update.hasChannelPost()) {
+    //            try {
+    //                SendMessage sendMessage = msgBotService.respondChannelMessage(messageObj);
+    //                if( sendMessage!=null ){
+    //                    execute(sendMessage);
+    //                }
+    //            } catch (Exception e) {
+    //                logger.error("respondPrivateMessage:",e);
+    //            }
+            }
+        } catch (Exception e) {
+            logger.error("error ",e);
         }
 
     }
@@ -128,13 +139,6 @@ public class MsgBot extends TelegramLongPollingBot {
             pool.submit(new Thread(()->onUpdateReceived(update)));
 
         }
-    }
-
-
-    public static void main(String[] args) {
-        System.out.println("1583131138");
-        System.out.println("1583131138000");
-        System.out.println( new Date(1583131138000L).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()  ) ;
     }
 
 }

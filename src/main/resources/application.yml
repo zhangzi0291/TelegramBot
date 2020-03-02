@@ -7,14 +7,14 @@ spring:
 
 
 chat:
-  message: D:/WorkSpaceIdea/TelegramBot/templete/onetoone.csv
+  message: D:/WorkSpaceIdea/TelegramBot/templete/message.csv
   channalMessage: D:/WorkSpaceIdea/TelegramBot/templete/onetomany.csv
   welcomeText: D:/WorkSpaceIdea/TelegramBot/templete/welcome.txt
 msgbot:
   token:
   name:
 proxy:
-  enable: true
+  enable: false
   host: 127.0.0.1
   port: 8889
   user:

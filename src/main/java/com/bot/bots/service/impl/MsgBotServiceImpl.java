@@ -72,7 +72,9 @@ public class MsgBotServiceImpl implements IMsgBotService {
         } else {
             sendMessage = generalAnswer(text,message.getChatId());
         }
-        log(user.getFirstName(),user.getId(),user.getUserName(),text,sendMessage.getText());
+        if(sendMessage!=null) {
+            log(user.getFirstName(), user.getId(), user.getUserName(), text, sendMessage.getText());
+        }
         return sendMessage;
     }
 
@@ -98,7 +100,9 @@ public class MsgBotServiceImpl implements IMsgBotService {
             sendMessage = generalAnswer(text,message.getChatId());
         }
 
-        log(user.getFirstName(),user.getId(),user.getUserName(),"newMembers",sendMessage.getText());
+        if(sendMessage!=null) {
+            log(user.getFirstName(), user.getId(), user.getUserName(), text, sendMessage.getText());
+        }
         return sendMessage;
     }
 
@@ -136,18 +140,21 @@ public class MsgBotServiceImpl implements IMsgBotService {
 
 
     private SendMessage generalAnswer(String msg, Long chat_id) {
-        String url = "https://api.ownthink.com/bot";
-        String param = "appid="+Constant.OWNTHINK_APPID+"&userid="+Constant.OWNTHINK_USERID+"&spoken=" + msg;
-        String result = HttpUtil.sendGet(url, param);
-        String answer = "听不懂！！";
+        if(Constant.OWNTHINK_ENABLE) {
+            String url = "https://api.ownthink.com/bot";
+            String param = "appid=" + Constant.OWNTHINK_APPID + "&userid=" + Constant.OWNTHINK_USERID + "&spoken=" + msg;
+            String result = HttpUtil.sendGet(url, param);
+            String answer = "听不懂！！";
 
-        JSONObject json = JSON.parseObject(result);
-        if("success".equals(json.getString("message"))){
-            answer = json.getJSONObject("data").getJSONObject("info").getString("text");
+            JSONObject json = JSON.parseObject(result);
+            if ("success".equals(json.getString("message"))) {
+                answer = json.getJSONObject("data").getJSONObject("info").getString("text");
+            }
+            return new SendMessage() // Create a message object object
+                    .setChatId(chat_id)
+                    .setText(answer);
         }
-        return new SendMessage() // Create a message object object
-                .setChatId(chat_id)
-                .setText(answer);
+        return null;
     }
 
     /**
