@@ -1,15 +1,26 @@
 server:
-  port: 8080
-
+  port: 80
 spring:
   application:
     name: TelegramBot
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    charset: UTF-8
+    request-context-attribute: request
+    prefer-file-system-access: true
+    settings:
+      template_update_delay: 0
+      default_encoding: UTF-8
+      classic_compatible: true
 
 
 chat:
   message: D:/WorkSpaceIdea/TelegramBot/templete/message.csv
   channalMessage: D:/WorkSpaceIdea/TelegramBot/templete/onetomany.csv
   welcomeText: D:/WorkSpaceIdea/TelegramBot/templete/welcome.txt
+  welcome-enable: false
+
 msgbot:
   token:
   name:

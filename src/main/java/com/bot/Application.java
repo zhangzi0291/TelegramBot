@@ -43,7 +43,7 @@ public class Application {
 
     public static void main(String[] args) {
         //Add this line to initialize bots context
-        ApiContextInitializer.init();
+//        ApiContextInitializer.init();
         SpringApplication.run(Application.class, args);
 
 //        TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -55,7 +55,7 @@ public class Application {
 
     }
 
-    @Bean
+//    @Bean
     public TelegramLongPollingBot msgBot(){
 
 

@@ -38,7 +38,8 @@ public class Constant {
 
     public static Map<String,String> channalMessageMap = new HashMap<>();
 
-    public static String welcomeText;
+    public static String WELCOME_TEXT;
+    public static Boolean WELCOME_ENABLE;
 
     public static String MSG_BOT_TOKEN ;
     public static String MSG_BOT_NAME ;

@@ -67,15 +67,17 @@ public class MsgBot extends TelegramLongPollingBot {
                 return;
             }
 
-            //致欢迎
+            //致欢迎词
             try {
-                List<SendMessage> sendMessageList = msgBotService.sendWelcome(messageObj);
-                if(!CollectionUtils.isEmpty(sendMessageList)){
+                if (Constant.WELCOME_ENABLE) {
+                    List<SendMessage> sendMessageList = msgBotService.sendWelcome(messageObj);
+                    if (!CollectionUtils.isEmpty(sendMessageList)) {
                         for (SendMessage sendMessage : sendMessageList) {
-                                execute(sendMessage);
+                            execute(sendMessage);
                         }
                     }
                 }
+            }
             catch (Exception e) {
                 logger.error("welcome error:" ,e);
             }

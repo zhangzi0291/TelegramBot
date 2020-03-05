@@ -38,7 +38,7 @@ public class MsgBotServiceImpl implements IMsgBotService {
                 if(user.getBot()){
                     return;
                 }
-                String welcomeText = Constant.welcomeText.replaceAll("\\{name}",user.getFirstName());
+                String welcomeText = Constant.WELCOME_TEXT.replaceAll("\\{name}",user.getFirstName());
                 SendMessage sendMessage = new SendMessage()
                         .setChatId(finalChat_id)
                         .setText(welcomeText);

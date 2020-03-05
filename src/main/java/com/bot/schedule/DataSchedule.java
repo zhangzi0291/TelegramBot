@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component
 public class DataSchedule {
 
     private Logger logger = LoggerFactory.getLogger(DataSchedule.class);
@@ -72,6 +72,6 @@ public class DataSchedule {
         logger.debug("更新数据：{}",welcomeTextPath);
         Path filePath = Paths.get(welcomeTextPath);
         String welcomeText = new String (Files.readAllBytes(filePath));
-        Constant.welcomeText = welcomeText;
+        Constant.WELCOME_TEXT = welcomeText;
     }
 }

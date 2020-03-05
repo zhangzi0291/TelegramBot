@@ -11,23 +11,23 @@ import javax.annotation.Resource;
 @RestController
 public class TestConrtroller {
 
-    @Resource
-    private MsgBot msgBot;
-
-    @RequestMapping("pushToChannel")
-    public String test(String answer){
-        try {
-            SendMessage message = new SendMessage() // Create a message object object
-                    .setChatId("-1001248166672")
-                    .setText(answer);
-            msgBot.execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-            return "error";
-        }
-
-        return "ok";
-
-    }
+//    @Resource
+//    private MsgBot msgBot;
+//
+//    @RequestMapping("pushToChannel")
+//    public String test(String answer){
+//        try {
+//            SendMessage message = new SendMessage() // Create a message object object
+//                    .setChatId("-1001248166672")
+//                    .setText(answer);
+//            msgBot.execute(message);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//            return "error";
+//        }
+//
+//        return "ok";
+//
+//    }
 
 }
