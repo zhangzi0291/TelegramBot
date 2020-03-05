@@ -34,6 +34,8 @@
         <div class="row">
             <div class="col">
                 目前状态：<span id="nowStatus"></span>
+            </div>
+            <div class="col">
                 <button id="enableButton" class="btn btn-primary" type="button"> </button>
             </div>
         </div>

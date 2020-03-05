@@ -1,10 +1,12 @@
 package com.bot.controller;
 
 import com.bot.data.Constant;
+import com.bot.schedule.SqliteDataSchedule;
 import com.bot.util.SqLiteUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +15,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("data")
 public class DataController {
+
+    @Resource
+    private SqliteDataSchedule sqliteDataSchedule;
 
     @RequestMapping("getMessageData")
     public List<Map<String, String>>  getMessageData(){
@@ -25,6 +30,11 @@ public class DataController {
         List<String> params = new ArrayList();
         params.add(id.toString());
         SqLiteUtil.updateValue("delete from message where id = ?",params);
+        try {
+            sqliteDataSchedule.loadOneToOneData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "success";
     }
 
@@ -47,6 +57,24 @@ public class DataController {
         params.add(message_value);
         params.add(id);
         SqLiteUtil.updateValue("update message set message_key=?,message_value=? where id = ?",params);
+        try {
+            sqliteDataSchedule.loadOneToOneData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+    @RequestMapping("insertMessage")
+    public String insertMessage(String message_key,String message_value){
+        List<String> params = new ArrayList();
+        params.add(message_key);
+        params.add(message_value);
+        SqLiteUtil.updateValue("insert into message(message_key,message_value) values(?,?)",params);
+        try {
+            sqliteDataSchedule.loadOneToOneData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "success";
     }
 

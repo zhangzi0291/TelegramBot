@@ -63,9 +63,9 @@ public class MsgBot extends TelegramLongPollingBot {
                 return;
             }
 
-            if(messageObj.getChat().getTitle() != null && messageObj.getChat().getTitle().equals("DotWallet Official")){
-                return;
-            }
+//            if(messageObj.getChat().getTitle() != null && messageObj.getChat().getTitle().equals("DotWallet Official")){
+//                return;
+//            }
 
             //致欢迎词
             try {

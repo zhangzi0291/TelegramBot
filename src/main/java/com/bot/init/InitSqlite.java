@@ -36,7 +36,7 @@ public class InitSqlite implements ApplicationRunner {
                     "                    message_value text\n" +
                     "            );");
 
-            SqLiteUtil.updateValue("insert into welcome(id,welcome_text) values(-1,'welcome'),(-2,'enable')",new ArrayList<>());
+            SqLiteUtil.updateValue("insert into welcome(id,welcome_text) values(-1,'welcome'),(-2,'disable')",new ArrayList<>());
         }
     }
 

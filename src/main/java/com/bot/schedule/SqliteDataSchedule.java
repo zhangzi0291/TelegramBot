@@ -31,7 +31,7 @@ public class SqliteDataSchedule {
     private String welcomeTextPath;
 
     @Scheduled(fixedRate = 1000*60*5)
-    private void loadOneToOneData() throws Exception{
+    public void loadOneToOneData() throws Exception{
         logger.debug("更新数据：{}",messagePath);
         Map<String,String> resultMap = new HashMap();
 

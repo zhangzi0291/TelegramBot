@@ -16,12 +16,45 @@
     <div class="container">
 
         <div class="row">
+            <button id="add" class="btn btn-primary" type="button" onclick="showAdd()">新增</button>
+        </div>
+        <div class="row">
             <div class="col-sm">
                 <table id = 'table'  cellspacing="0"></table>
             </div>
         </div>
     </div>
 
+    <div id="addModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">关键字：</span>
+                        </div>
+                        <input id="addKey" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">回&nbsp;&nbsp;&nbsp;复：</span>
+                        </div>
+                        <textarea id="addValue" class="form-control" aria-label="With textarea" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="addok" type="button" class="btn btn-primary">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="editModal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -59,9 +92,28 @@
 
     $(function(){
         initTable()
-
     })
 
+    $('#addok').click(function () {
+        $.ajax({
+            type: "POST",
+            url: baseurl + "/data/insertMessage",
+            data:{
+                message_key:$('#addKey').val(),
+                message_value:$('#addValue').val()
+            },
+            success: function(data){
+                if(data){
+                    $('#addModal').modal('hide')
+                    $("#table").bootstrapTable('refresh');
+                }
+            }
+        });
+    })
+
+    function showAdd() {
+        $('#addModal').modal('show')
+    }
 
     $('#editok').click(function () {
         $.ajax({
