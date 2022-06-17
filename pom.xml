@@ -37,7 +37,7 @@
         <swagger.version>2.9.2</swagger.version>
         <mybatis.plus.version>3.3.1</mybatis.plus.version>
         <tio.version>3.2.0.v20180918-RELEASE</tio.version>
-        <fastjson.version>1.2.47</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <postgresql.version>42.2.2</postgresql.version>
         <druid.version>1.1.10</druid.version>
         <spring.shiro.version>1.4.0-RC2</spring.shiro.version>
